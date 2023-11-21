@@ -13,14 +13,12 @@ using namespace System;
 using namespace std;
 int milisegundos = 0;
 int segundos = 0;
-int rondas = 1;
+int rondas = 0;
 
 void gameStart() {
     int scorePositionX = 0; int scorePositionY = 0; int xScoreTimer = 40; int yScoreTimer = 0;
     
-    game(milisegundos, segundos, scorePositionX, scorePositionY, xScoreTimer, yScoreTimer, rondas);
-   
-    
+    game(milisegundos, segundos, scorePositionX, scorePositionY, xScoreTimer, yScoreTimer, rondas);   
 
 }
 

@@ -25,11 +25,11 @@ string countries[PAISES] = { "PER","BRA","ARG","CHI","COL","VEN","ECU","URU","CU
 
 
 void mapInfoAssigner(int rondas) {
-    int round1LowestScores[5] = { 100, 100 ,100 ,100 ,100 };
+    int round1LowestScores[5] = { 1000, 1000 ,1000 ,1000 ,1000 };
     string round1LowestCountries[5];
-    int round2LowestScores[2] = { 100,100 };
+    int round2LowestScores[2] = { 1000,1000 };
     string round2LowestCountries[2];
-    if (rondas == 1) {
+    if (rondas == 0) {
         for (int i = 0; i < PAISES; i++) {
             c[i].active = 1;
             c[i].countryName = countries[i];
@@ -41,10 +41,12 @@ void mapInfoAssigner(int rondas) {
         }
 
     }
-    if (rondas == 2) {
+    if (rondas == 1) {
         for (int i = 0; i < PAISES; i++) {
             for (int j = 0; j < 5; j++) {
                 if (c[i].score < round1LowestScores[j]) {
+                    //estamos reemplazando los valores del indice más alto para mantener el número de comparación en los 
+                    //indices mas bajos
                     for (int k = 4; k >= j; k--) {
                         round1LowestScores[k] = round1LowestScores[k - 1];
                     }
@@ -63,9 +65,14 @@ void mapInfoAssigner(int rondas) {
                 }
             }
         }
-
+        for (int i = 1; i < PAISES; i++) {
+            if (c[i].active == 1) {
+                c[i].score = rand() % 11 + 50;
+            }
+        }
     }
-    if (rondas == 3) {
+    if (rondas == 2) {
+        //asignamos al primer puntaje como el mas bajo para empezar la comparacion con el resto de puntajes
         round2LowestScores[0] = c[0].score;
         for (int i = 0; i < PAISES; i++) {
             if (c[i].score < round2LowestScores[0]) {
@@ -84,7 +91,11 @@ void mapInfoAssigner(int rondas) {
                 }
             }
         }
-
+        for (int i = 1; i < PAISES; i++) {
+            if (c[i].active == 1) {
+                c[i].score = rand() % 11 + 55;
+            }
+        }
     }
 }
 
@@ -170,6 +181,7 @@ int transition[FILAS][COLUMNAS]{ {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1} };
 
 void transitionScreen(int transition[FILAS][COLUMNAS], int rondas) {
+    mapInfoAssigner(rondas);
     for (int i = 0; i < FILAS; i++)
     {
         for (int j = 0; j < COLUMNAS; j++)
@@ -190,8 +202,8 @@ void transitionScreen(int transition[FILAS][COLUMNAS], int rondas) {
         }
     }
     
-    mapInfoAssigner(rondas);
-    return;
+    
+    system("pause");
     
 }
 
