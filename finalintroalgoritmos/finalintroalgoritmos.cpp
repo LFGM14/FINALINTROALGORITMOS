@@ -13,12 +13,13 @@ using namespace System;
 using namespace std;
 int milisegundos = 0;
 int segundos = 0;
+int rondas = 1;
 
 void gameStart() {
-    while (1) {
-        drawMap(map);
-
-    }
+    int scorePositionX = 0; int scorePositionY = 0; int xScoreTimer = 40; int yScoreTimer = 0;
+    
+    game(milisegundos, segundos, scorePositionX, scorePositionY, xScoreTimer, yScoreTimer, rondas);
+   
     
 
 }
@@ -28,9 +29,8 @@ void gameStart() {
 int main() {
     Console::SetWindowSize(80, 25);
     srand(time(NULL));
-    score(milisegundos, segundos, 0, 0);
     
-
+    gameStart();
 
     system("pause>0");
     return 0;
