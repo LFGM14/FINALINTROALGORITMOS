@@ -25,7 +25,7 @@ string countries[PAISES] = { "PER","BRA","ARG","CHI","COL","VEN","ECU","URU","CU
 
 
 void mapInfoAssigner(int rondas) {
-    int round1LowestScores[5] = { 1000, 1000 ,1000 ,1000 ,1000 };
+    int round1LowestScores[5] = { INT_MAX, INT_MAX ,INT_MAX ,INT_MAX ,INT_MAX };
     string round1LowestCountries[5];
     int round2LowestScores[2] = { 1000,1000 };
     string round2LowestCountries[2];
@@ -41,7 +41,7 @@ void mapInfoAssigner(int rondas) {
 
             c[i].score = rand() % 11 + 45;
         }
-        break;
+        
     }
 
     case 1: {
@@ -56,6 +56,7 @@ void mapInfoAssigner(int rondas) {
 
                     round1LowestScores[j] = c[i].score;
                     round1LowestCountries[j] = c[i].countryName;
+                    
 
                 }
             }
@@ -63,7 +64,7 @@ void mapInfoAssigner(int rondas) {
         // al perder el estado de activo ya no seran impresos en las pantallas de transicion
         for (int i = 0; i < PAISES; i++) {
             for (int j = 0; j < 5; j++) {
-                if (c[i].score == round1LowestScores[j]/* && c[i].countryName == round1LowestCountries[j]*/) {
+                if (c[i].score == round1LowestScores[j] && c[i].countryName == round1LowestCountries[j]) {
                     c[i].active = false;
                 }
             }
@@ -250,9 +251,9 @@ void game(int xScore, int yScore, int xScoreTimer , int yScoreTimer, int rondas)
     }
     c[0].score = keyPress;
 
-    rondas++;
+    
     transitionScreen(transition, rondas,milisegundos, segundos,  xScore, yScore, xScoreTimer, yScoreTimer);
-   
+    rondas++;
     game( xScore, yScore, xScoreTimer, yScoreTimer, rondas);
 
 }

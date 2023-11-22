@@ -499,7 +499,52 @@ int fireworks13[FILAS][COLUMNAS] = { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} };
 
+void drawFireworks(fireworks1[FILAS][COLUMNAS]) {
+	for (int i = 0; i < FILAS; i++) {
+		for (int j = 0; j < COLUMNAS; j++) {
+			setxy(j, i);
+			cout << (char)219;
+		}
+	}
+}
 
+void processKeyPress(bool& espacioPresionado, int& indiceMatrizActual) {
+	if (_kbhit()) {
+		char tecla = _getch();
+		if (tecla == ' ') {
+			espacioPresionado = true;
+		}
+	}
+
+	if (espacioPresionado) {
+		// Lógica para cambiar las matrices upcLogo o start según sea necesario
+		// ...
+		// Reiniciar la variable para evitar cambios continuos mientras la tecla está presionada
+		espacioPresionado = false;
+	}
+	else {
+		// Lógica para imprimir la matriz actual de fireworks
+		// ...
+		// Mover al siguiente elemento en la lista
+		++indiceMatrizActual;
+	}
+}
+
+void runFireworksAnimation() {
+	int indiceMatrizActual = 1;
+	bool espacioPresionado = false;
+
+	while (indiceMatrizActual <= 13) {
+		processKeyPress(espacioPresionado, indiceMatrizActual);
+		drawFireworks(getFireworksMatrix(indiceMatrizActual));
+
+		// Esperar un momento antes de cambiar a la siguiente matriz (por ejemplo, 2 segundos)
+		_sleep(2000);
+
+		// Limpiar la pantalla (opcional)
+		system("cls");
+	}
+}
 
 
 
