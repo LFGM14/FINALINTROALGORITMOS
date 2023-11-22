@@ -29,7 +29,9 @@ void mapInfoAssigner(int rondas) {
     string round1LowestCountries[5];
     int round2LowestScores[2] = { 1000,1000 };
     string round2LowestCountries[2];
-    if (rondas == 0) {
+
+    switch (rondas) {
+    case 0: {
         for (int i = 0; i < PAISES; i++) {
             c[i].active = 1;
             c[i].countryName = countries[i];
@@ -39,9 +41,10 @@ void mapInfoAssigner(int rondas) {
 
             c[i].score = rand() % 11 + 45;
         }
-
+        break;
     }
-    if (rondas == 1) {
+
+    case 1: {
         for (int i = 0; i < PAISES; i++) {
             for (int j = 0; j < 5; j++) {
                 if (c[i].score < round1LowestScores[j]) {
@@ -53,25 +56,27 @@ void mapInfoAssigner(int rondas) {
 
                     round1LowestScores[j] = c[i].score;
                     round1LowestCountries[j] = c[i].countryName;
-                    
+
                 }
             }
         }
         // al perder el estado de activo ya no seran impresos en las pantallas de transicion
         for (int i = 0; i < PAISES; i++) {
             for (int j = 0; j < 5; j++) {
-                if (c[i].score == round1LowestScores[j] && c[i].countryName == round1LowestCountries[j]) {
-                    c[i].active = 0;
+                if (c[i].score == round1LowestScores[j]/* && c[i].countryName == round1LowestCountries[j]*/) {
+                    c[i].active = false;
                 }
             }
         }
         for (int i = 1; i < PAISES; i++) {
-            if (c[i].active == 1) {
+            if (c[i].active == true) {
                 c[i].score = rand() % 11 + 50;
             }
         }
+        break;
     }
-    if (rondas == 2) {
+
+    case 2: {
         //asignamos al primer puntaje como el mas bajo para empezar la comparacion con el resto de puntajes
         round2LowestScores[0] = c[0].score;
         for (int i = 0; i < PAISES; i++) {
@@ -87,14 +92,16 @@ void mapInfoAssigner(int rondas) {
         for (int i = 0; i < PAISES; i++) {
             for (int j = 0; j < 2; j++) {
                 if (c[i].score == round2LowestScores[j] && c[i].countryName == round2LowestCountries[j]) {
-                    c[i].active = 0;
+                    c[i].active = false;
                 }
             }
         }
         for (int i = 1; i < PAISES; i++) {
-            if (c[i].active == 1) {
+            if (c[i].active == true) {
                 c[i].score = rand() % 11 + 55;
             }
+        }
+        break;
         }
     }
 }
@@ -201,7 +208,7 @@ int xScoreTimer, int yScoreTimer) {
     
     for (int i = 0; i < PAISES; i++) {
             changeColor(3);
-            if (c[i].active == 1) {
+            if (c[i].active == true) {
                 setxy(25, 4 + i);
                 cout << c[i].countryName << " - - - > " << c[i].score;
             }
@@ -226,7 +233,7 @@ void game(int xScore, int yScore, int xScoreTimer , int yScoreTimer, int rondas)
         if (_kbhit()) {
             tecla = _getch();
 
-            if (tecla == 'X' || 'x') keyPress++;
+            if (tecla == 'X') keyPress++;
         }
         setxy(xScore, yScore);
         cout << "Puntaje: " << keyPress;
