@@ -91,6 +91,9 @@ void mapInfoAssigner(int rondas) {
         }
 
     }
+    case 4: {
+
+    }
     }
 }
 

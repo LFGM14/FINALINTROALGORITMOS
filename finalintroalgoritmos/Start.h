@@ -126,3 +126,26 @@ void drawLogo(int upcLogo[FILAS][COLUMNAS]) {
 	system("pause>0");
 	drawInauguration(start);
 }
+
+void premiation(int transition[FILAS][COLUMNAS]) {
+	for (int i = 0; i < FILAS; i++)
+	{
+		for (int j = 0; j < COLUMNAS; j++)
+		{
+			setxy(j, i);
+			if (transition[i][j] == 0) changeColor(15);
+			if (transition[i][j] == 1) changeColor(1);
+			if (transition[i][j] == 2) changeColor(5);
+
+
+			cout << (char)219;
+		}
+	}
+	setxy(20, 5);
+	for (int i = 7; i < PAISES; i++) {
+		cout << "MEDALLISTAS" << endl;
+		cout << c[i].countryName << "gano EL ORO.";
+		cout << c[i].countryName << "gano la plata.";
+		cout << c[i].countryName << "gano el bronze.";
+	}
+}
