@@ -103,63 +103,7 @@ void drawInaguration(int start[FILAS][COLUMNAS]) {
 
 }
 
-void instructions(char input, int pag) {
-	int pos = 3;
-	
 
-	while (1)
-	{
-
-		if (_kbhit()) {
-			input = _getch();
-			if (input == leftMov) {
-				pos = 3;
-				Console::ForegroundColor = ConsoleColor::Blue;
-				Console::SetCursorPosition(5, 38); cout << "volver";
-				Console::SetCursorPosition(29, 38); cout << "     ";
-				Console::SetCursorPosition(3, 32); printf("    *");
-				Console::SetCursorPosition(3, 33); printf("  * * * *");
-				Console::SetCursorPosition(3, 34); printf("* * * * *");
-				Console::SetCursorPosition(3, 35); printf("  * * * *");
-				Console::SetCursorPosition(3, 36); printf("    *");
-				Console::ForegroundColor = ConsoleColor::White;
-				Console::SetCursorPosition(27, 32); printf("    *");
-				Console::SetCursorPosition(27, 33); printf("* * * *  ");
-				Console::SetCursorPosition(27, 34); printf("* * * * *");
-				Console::SetCursorPosition(27, 35); printf("* * * *  ");
-				Console::SetCursorPosition(27, 36); printf("    *");
-			}
-			else if (input == rightMov) {
-				pos = 27;
-				Console::ForegroundColor = ConsoleColor::White;
-				Console::SetCursorPosition(3, 32); printf("    *");
-				Console::SetCursorPosition(3, 33); printf("  * * * *");
-				Console::SetCursorPosition(3, 34); printf("* * * * *");
-				Console::SetCursorPosition(3, 35); printf("  * * * *");
-				Console::SetCursorPosition(3, 36); printf("    *");
-				Console::ForegroundColor = ConsoleColor::Blue;
-				Console::SetCursorPosition(27, 32); printf("    *");
-				Console::SetCursorPosition(27, 33); printf("* * * *  ");
-				Console::SetCursorPosition(27, 34); printf("* * * * *");
-				Console::SetCursorPosition(27, 35); printf("* * * *  ");
-				Console::SetCursorPosition(27, 36); printf("    *");
-				Console::SetCursorPosition(5, 38); cout << "      ";
-				Console::SetCursorPosition(29, 38); cout << "jugar";
-			}
-			else if (pos == 27 && input == 13) {
-				pag = 1;
-				Console::Clear();
-				break;
-			}
-			else if (pos == 3 && input == 13) {
-				input = 0;
-				Console::Clear();
-				break;
-			}
-		}
-	}
-
-}
 
 int fireworks1[FILAS][COLUMNAS] = { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -499,52 +443,7 @@ int fireworks13[FILAS][COLUMNAS] = { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} };
 
-void drawFireworks(fireworks1[FILAS][COLUMNAS]) {
-	for (int i = 0; i < FILAS; i++) {
-		for (int j = 0; j < COLUMNAS; j++) {
-			setxy(j, i);
-			cout << (char)219;
-		}
-	}
-}
 
-void processKeyPress(bool& espacioPresionado, int& indiceMatrizActual) {
-	if (_kbhit()) {
-		char tecla = _getch();
-		if (tecla == ' ') {
-			espacioPresionado = true;
-		}
-	}
-
-	if (espacioPresionado) {
-		// Lógica para cambiar las matrices upcLogo o start según sea necesario
-		// ...
-		// Reiniciar la variable para evitar cambios continuos mientras la tecla está presionada
-		espacioPresionado = false;
-	}
-	else {
-		// Lógica para imprimir la matriz actual de fireworks
-		// ...
-		// Mover al siguiente elemento en la lista
-		++indiceMatrizActual;
-	}
-}
-
-void runFireworksAnimation() {
-	int indiceMatrizActual = 1;
-	bool espacioPresionado = false;
-
-	while (indiceMatrizActual <= 13) {
-		processKeyPress(espacioPresionado, indiceMatrizActual);
-		drawFireworks(getFireworksMatrix(indiceMatrizActual));
-
-		// Esperar un momento antes de cambiar a la siguiente matriz (por ejemplo, 2 segundos)
-		_sleep(2000);
-
-		// Limpiar la pantalla (opcional)
-		system("cls");
-	}
-}
 
 
 
