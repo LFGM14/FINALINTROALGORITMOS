@@ -22,14 +22,23 @@ country c[PAISES];
 
 string countries[PAISES] = { "PER","BRA","ARG","CHI","COL","VEN","ECU","URU","CUB","MEX" };
 
-
+void bubbleSort(country arr[]) {
+    for (int i = 0; i < PAISES - 1; ++i) {
+        for (int j = 0; j < PAISES - i - 1; ++j) {
+            if (arr[j].score > arr[j + 1].score) {
+                // cambiar los elementos si estan en el orden incorrecto
+                country temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
 
 void mapInfoAssigner(int rondas) {
-    int round1LowestScores[5] = { 1000, 1000 ,1000 ,1000 ,1000 };
-    string round1LowestCountries[5];
-    int round2LowestScores[2] = { 1000,1000 };
-    string round2LowestCountries[2];
-    if (rondas == 0) {
+       
+    switch (rondas) {
+    case 0: {
         for (int i = 0; i < PAISES; i++) {
             c[i].active = 1;
             c[i].countryName = countries[i];
@@ -39,63 +48,53 @@ void mapInfoAssigner(int rondas) {
 
             c[i].score = rand() % 11 + 45;
         }
-
+        
+        break;
     }
-    if (rondas == 1) {
-        for (int i = 0; i < PAISES; i++) {
-            for (int j = 0; j < 5; j++) {
-                if (c[i].score < round1LowestScores[j]) {
-                    //estamos reemplazando los valores del indice más alto para mantener el número de comparación en los 
-                    //indices mas bajos
-                    for (int k = 4; k >= j; k--) {
-                        round1LowestScores[k] = round1LowestScores[k - 1];
-                    }
 
-                    round1LowestScores[j] = c[i].score;
-                    round1LowestCountries[j] = c[i].countryName;
-                    
-                }
-            }
-        }
+    case 1: {
+        
         // al perder el estado de activo ya no seran impresos en las pantallas de transicion
-        for (int i = 0; i < PAISES; i++) {
-            for (int j = 0; j < 5; j++) {
-                if (c[i].score == round1LowestScores[j] && c[i].countryName == round1LowestCountries[j]) {
-                    c[i].active = 0;
-                }
-            }
+        for (int i = 0; i < 5; i++) {
+            c[i].active = false;
         }
         for (int i = 1; i < PAISES; i++) {
-            if (c[i].active == 1) {
+            if (c[i].active == true) {
                 c[i].score = rand() % 11 + 50;
             }
         }
+       
+        if (c[0].active == false) {
+            setxy(40, 10);
+            cout << "Perdiste";
+            break;
+        }
+        break;
     }
-    if (rondas == 2) {
-        //asignamos al primer puntaje como el mas bajo para empezar la comparacion con el resto de puntajes
-        round2LowestScores[0] = c[0].score;
-        for (int i = 0; i < PAISES; i++) {
-            if (c[i].score < round2LowestScores[0]) {
-                round2LowestScores[1] = round2LowestScores[0];
-                round2LowestScores[0] = c[i].score;
-            }
-            else if (c[i].score < round2LowestScores[1]) {
-                round2LowestScores[1] = c[i].score;
-            }
-        }
+
+    case 2: {
+        
         // al perder el estado de activo ya no seran impresos en las pantallas de transicion
-        for (int i = 0; i < PAISES; i++) {
-            for (int j = 0; j < 2; j++) {
-                if (c[i].score == round2LowestScores[j] && c[i].countryName == round2LowestCountries[j]) {
-                    c[i].active = 0;
-                }
-            }
+        
+        for (int i = 0; i < 2; i++) {
+            c[i].active = false;
         }
+        
         for (int i = 1; i < PAISES; i++) {
-            if (c[i].active == 1) {
+            if (c[i].active == true) {
                 c[i].score = rand() % 11 + 55;
             }
         }
+        break;
+        }
+    case 3: {
+        for (int i = 0; i < PAISES; i++) {
+            if (c[i].active == true) {
+                c[i].score = rand() % 11 + 60;
+            }
+        }
+
+    }
     }
 }
 
@@ -201,7 +200,7 @@ int xScoreTimer, int yScoreTimer) {
     
     for (int i = 0; i < PAISES; i++) {
             changeColor(3);
-            if (c[i].active == 1) {
+            if (c[i].active == true) {
                 setxy(25, 4 + i);
                 cout << c[i].countryName << " - - - > " << c[i].score;
             }
@@ -212,7 +211,7 @@ int xScoreTimer, int yScoreTimer) {
 }
 
 
-void game(int xScore, int yScore, int xScoreTimer , int yScoreTimer, int rondas) {
+void game(int xScore, int yScore, int xScoreTimer , int yScoreTimer, int xCountdown, int yCountdown, int rondas) {
     char tecla;
     int keyPress = 0;
     int milisegundos = 0;
@@ -222,16 +221,34 @@ void game(int xScore, int yScore, int xScoreTimer , int yScoreTimer, int rondas)
     setxy(60, 0);
     cout << "Ronda: " << rondas+1;
     while (1) {
+        milisegundos++;
+        if (milisegundos == 100) {
+            setxy(xCountdown, yCountdown);
+            switch (segundos) {
+            case 0: {cout << "Ready?"; break; }
+            case 1: {cout << "Set?!?"; break; }
+            case 2: {cout << "GOOOOO"; break; }
+            case 3: {cout << "PRESS X!"; break; }
+            }
+            segundos++;
+            milisegundos = 0;
+        }
+
+        if (segundos == 4) break;
+        _sleep(10);
+    }
+    segundos = 0;
+    while (1) {
         
         if (_kbhit()) {
             tecla = _getch();
 
-            if (tecla == 'X' || 'x') keyPress++;
+            if (tecla == 'X') keyPress++;
         }
         setxy(xScore, yScore);
         cout << "Puntaje: " << keyPress;
         milisegundos++;
-        if (milisegundos == 100) {
+        if (milisegundos == 90) {
             setxy(xScoreTimer, yScoreTimer);
             segundos++;
             cout << "Tiempo: " << segundos;
@@ -242,11 +259,11 @@ void game(int xScore, int yScore, int xScoreTimer , int yScoreTimer, int rondas)
         _sleep(10);
     }
     c[0].score = keyPress;
-
-    rondas++;
+    bubbleSort(c);
+    
     transitionScreen(transition, rondas,milisegundos, segundos,  xScore, yScore, xScoreTimer, yScoreTimer);
-   
-    game( xScore, yScore, xScoreTimer, yScoreTimer, rondas);
+    rondas++;
+    game( xScore, yScore, xScoreTimer, yScoreTimer, xCountdown, yCountdown, rondas);
 
 }
 

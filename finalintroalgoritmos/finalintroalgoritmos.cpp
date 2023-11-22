@@ -15,12 +15,12 @@ using namespace std;
 int rondas = 0;
 
 void gameStart() {
-    int scorePositionX = 0; int scorePositionY = 0; int xScoreTimer = 40; int yScoreTimer = 0;
+    int scorePositionX = 0; int scorePositionY = 0; int xScoreTimer = 40; int yScoreTimer = 0; int yCountdown = 3; 
+    int xCountdown = 35;
     
-    game(scorePositionX, scorePositionY, xScoreTimer, yScoreTimer, rondas);   
+    game(scorePositionX, scorePositionY, xScoreTimer, yScoreTimer, xCountdown, yCountdown, rondas);
 
 }
-
 
 
 int main() {
