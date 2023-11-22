@@ -92,7 +92,7 @@ void mapInfoAssigner(int rondas) {
 
     }
     case 4: {
-
+        premiation(transition);
     }
     }
 }
