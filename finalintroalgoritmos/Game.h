@@ -23,11 +23,11 @@ country c[PAISES];
 string countries[PAISES] = { "PER","BRA","ARG","CHI","COL","VEN","ECU","URU","CUB","MEX" };
 
 void bubbleSort(country arr[]) {
-    for (int i = 0; i < PAISES - 1; ++i) {
-        for (int j = 0; j < PAISES - i - 1; ++j) {
+    for (int i = 0; i < PAISES - 1; i++) {
+        for (int j = 0; j < PAISES - i - 1; j++) {
             if (arr[j].score > arr[j + 1].score) {
                 // cambiar los elementos si estan en el orden incorrecto
-                country temp = arr[j];
+                country temp = arr[j]; //estamos asignando todos los valores de la estructura al valor temporal
                 arr[j] = arr[j + 1];
                 arr[j + 1] = temp;
             }
@@ -64,11 +64,7 @@ void mapInfoAssigner(int rondas) {
             }
         }
        
-        if (c[0].active == false) {
-            setxy(40, 10);
-            cout << "Perdiste";
-            break;
-        }
+        
         break;
     }
 
