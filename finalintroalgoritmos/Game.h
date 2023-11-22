@@ -10,7 +10,6 @@
 #define COLUMNAS 80
 #define PAISES 10
 
-
 using namespace System;
 using namespace std;
 
@@ -22,6 +21,7 @@ typedef struct {
 country c[PAISES];
 
 string countries[PAISES] = { "PER","BRA","ARG","CHI","COL","VEN","ECU","URU","CUB","MEX" };
+
 
 
 void mapInfoAssigner(int rondas) {
@@ -180,8 +180,11 @@ int transition[FILAS][COLUMNAS]{ {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 {2,1,1,1,1,2,2,1,1,1,1,2,2,1,1,1,1,2,2,1,1,1,1,2,2,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2,2,1,1,1,1,2,2,1,1,1,1,2,2,1,1,1,1,2,2,1,1,1,1,2,2,1,1,1,1,2,2,1,1,1,1,2},
 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1} };
 
-void transitionScreen(int transition[FILAS][COLUMNAS], int rondas) {
-    mapInfoAssigner(rondas);
+
+void transitionScreen(int transition[FILAS][COLUMNAS], int rondas,int milisegundos, int segundos, int xScore, int yScore,
+int xScoreTimer, int yScoreTimer) {
+    
+
     for (int i = 0; i < FILAS; i++)
     {
         for (int j = 0; j < COLUMNAS; j++)
@@ -195,23 +198,29 @@ void transitionScreen(int transition[FILAS][COLUMNAS], int rondas) {
             cout << (char)219;
         }
     }
+    
     for (int i = 0; i < PAISES; i++) {
-        if (c[i].active == 1) {
-            setxy(25, 4 + i);
-            cout << c[i].countryName << " - - - > " << c[i].score;
-        }
+            changeColor(3);
+            if (c[i].active == 1) {
+                setxy(25, 4 + i);
+                cout << c[i].countryName << " - - - > " << c[i].score;
+            }
     }
     
-    
     system("pause");
-    
+      
 }
 
-void game(int milisegundos, int segundos, int xScore, int yScore, int xScoreTimer , int yScoreTimer, int rondas) {
+
+void game(int xScore, int yScore, int xScoreTimer , int yScoreTimer, int rondas) {
     char tecla;
     int keyPress = 0;
+    int milisegundos = 0;
+    int segundos = 0;
     drawMap(map, rondas);
-    
+    mapInfoAssigner(rondas);
+    setxy(60, 0);
+    cout << "Ronda: " << rondas+1;
     while (1) {
         
         if (_kbhit()) {
@@ -235,8 +244,9 @@ void game(int milisegundos, int segundos, int xScore, int yScore, int xScoreTime
     c[0].score = keyPress;
 
     rondas++;
-    transitionScreen(transition, rondas);
-    game(milisegundos, segundos, xScore, yScore, xScoreTimer, yScoreTimer, rondas);
+    transitionScreen(transition, rondas,milisegundos, segundos,  xScore, yScore, xScoreTimer, yScoreTimer);
+   
+    game( xScore, yScore, xScoreTimer, yScoreTimer, rondas);
 
 }
 
